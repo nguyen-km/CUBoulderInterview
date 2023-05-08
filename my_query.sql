@@ -40,17 +40,20 @@ LEFT JOIN dirsvcs.dir_email de
     ON de.uuid = dp.uuid
     WHERE de.mail_flag = 'M' --Changed to a where because of left join
         AND de.mail IS NOT NULL  -- Only need if NULLs present in original de.mail variable
-WHERE dp.primaryaffiliation != 'Student'
-    OR 
-        (
-            dp.primaryaffiliation = 'Student'
-            AND EXISTS 
-                (
-                    SELECT 'x' 
-                    FROM dirsvcs.dir_acad_career 
-                    WHERE uuid = dp.uuid
-                )
-        )
+WHERE 
+    (
+        dp.primaryaffiliation != 'Student'
+        OR 
+            (
+                dp.primaryaffiliation = 'Student'
+                AND EXISTS 
+                    (
+                        SELECT 'x' 
+                        FROM dirsvcs.dir_acad_career 
+                        WHERE uuid = dp.uuid
+                    )
+            )
+    )
     AND lower(de.mail) NOT LIKE '%cu.edu' --removed from above beacuse of redundancy
 
 
