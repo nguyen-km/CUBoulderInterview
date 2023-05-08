@@ -48,7 +48,7 @@ WHERE
                 dp.primaryaffiliation = 'Student'
                 AND EXISTS 
                     (
-                        SELECT 'x' 
+                        SELECT 'x' -- if a variable name, don't need quotes
                         FROM dirsvcs.dir_acad_career 
                         WHERE uuid = dp.uuid
                     )
